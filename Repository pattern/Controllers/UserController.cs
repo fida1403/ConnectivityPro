@@ -44,8 +44,8 @@ namespace Repository_pattern.Controllers
         [HttpPut]
         public ActionResult<Users> UpdateUser(Users obj)
         {
-            var data = UserService.UpdateUser(obj);
-            return Ok("success");
+             var data = UserService.UpdateUser(obj);
+             return Ok("success");           
         }
 
 

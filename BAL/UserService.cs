@@ -21,6 +21,14 @@ namespace BAL
 
     public class UserService : IUserService
     {
+        private readonly UserContext _context;
+        private IUserRepository repository;
+        public UserService(UserContext context, IUserRepository repo)
+        {
+            _context = context;
+            repository = repo;
+        }
+
         public Users GetUserByEmail(string email)
         {
             if (string.IsNullOrEmpty(email) == null)
@@ -32,6 +40,10 @@ namespace BAL
                 throw new Exception("Incorrect Email pattern");
             }
             var result = repository.GetUserByEmail(email);
+            if (result == null)
+            {
+                throw new Exception("The requested data is not found");
+            }
             return result;
         }
 
@@ -62,21 +74,33 @@ namespace BAL
 
         public Users UpdateUser(Users obj)
         {
-            if(obj == null || string.IsNullOrWhiteSpace(obj.Email))
+
+            if (obj==null || string.IsNullOrWhiteSpace(obj.Email))
             {
                 throw new Exception("Invalid Request");
             }
-            var email=obj.Email;
-            if (!IsValidEmail(email))
+            if (!IsValidEmail(obj.Email))
             {
                 throw new Exception("Incorrect email pattern");
             }
-            var firstname = obj.Firstname;
-            if (IsValidName(firstname))
+            if (IsValidName(obj.Firstname))
             {
                 throw new Exception("Name should not contain any whitespace");
             }
-            var result=repository.UpdateUser(obj);
+
+            var user = repository.GetUserByEmail(obj.Email);
+            if (user == null)
+            {
+                throw new Exception("The requested data is not found");
+            }
+            user.Firstname = obj.Firstname;
+            user.Lastname = obj.Lastname;
+            user.Password=obj.Password;
+            user.DOB=obj.DOB;
+            user.Gender=obj.Gender;
+
+            var result = repository.UpdateUser(obj);
+            this._context.SaveChanges();
             return result;
         }
 
@@ -84,14 +108,11 @@ namespace BAL
         public Users RemoveUser(string email)
         {
             var result = repository.RemoveUser(email);
+            if (result == null)
+            {
+                throw new Exception("The requested data is not found");
+            }
             return result;
-        }
-
-
-        private IUserRepository repository;
-        public UserService(IUserRepository repo)
-        {
-            repository = repo;
         }
 
 
