@@ -26,9 +26,9 @@ namespace Repository_pattern.Controllers
 
 
         [HttpGet]
-        public ActionResult <List<Users>> GetAllUser()
-        {
-            var data=UserService.GetAllUser();
+        public ActionResult <List<Users>> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
+        { 
+            var data=UserService.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove);
             return Ok(data);
         }
 

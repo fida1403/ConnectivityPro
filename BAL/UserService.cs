@@ -13,7 +13,7 @@ namespace BAL
     public interface IUserService
     {
         Users GetUserByEmail(string email);
-        List<Users> GetAllUser();
+        List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove);
         Users CreateUser(Users obj);
         Users UpdateUser(Users obj);
         Users RemoveUser(string email);
@@ -48,9 +48,9 @@ namespace BAL
         }
 
 
-        public List<Users> GetAllUser()
+        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
         {
-            var result = repository.GetAllUser();
+            var result = repository.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove);
             return result;
         }
 

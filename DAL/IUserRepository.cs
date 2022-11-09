@@ -10,7 +10,7 @@ namespace DAL.Models
         {
             public Users CreateUser(Users obj);
             public Users? GetUserByEmail(string email);
-            public List<Users> GetAllUser();
+            public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove);
             public Users UpdateUser(Users obj);
             public Users RemoveUser(string email);
 
