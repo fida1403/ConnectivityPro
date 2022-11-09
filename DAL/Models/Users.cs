@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Dynamic;
 
 namespace DAL.Models
 {
@@ -37,6 +38,11 @@ namespace DAL.Models
         Male = 1,
         Female = 2,
         Others = 3
+    }
+
+    public enum dob
+    {
+
     }
 }
 

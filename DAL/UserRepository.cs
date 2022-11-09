@@ -17,16 +17,30 @@ namespace DAL
         }
 
 
-        public Users? GetUserByEmail(string email)
+        public Users GetUserByEmail(string email)
         {
             var data=context.users.Where(x => x.Email == email).FirstOrDefault();
             return data;
         }
 
 
-        public List<Users> GetAllUser()
+        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
         {
-            return context.users.ToList();  
+            var query = context.users.AsQueryable();
+            if (!string.IsNullOrEmpty(nameStartWith))
+            {
+                query = query.Where(c => c.Firstname.StartsWith(nameStartWith));
+            }
+            if (!string.IsNullOrEmpty(nameEndWith))
+            {
+                query = query.Where(c => c.Lastname.EndsWith(nameEndWith));
+            }
+            if(!string.IsNullOrEmpty(nameContains))
+            {
+                query = query.Where(c => c.Firstname.Contains(nameContains));
+            }
+         
+            return query.Skip((pageNo-1)*itemsPerPage).Take(itemsPerPage).ToList();  
         }
 
 
@@ -52,5 +66,6 @@ namespace DAL
             this.context.SaveChanges();
             return data;
         }
+
     }
 }
