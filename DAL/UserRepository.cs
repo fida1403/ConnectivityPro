@@ -17,13 +17,9 @@ namespace DAL
         }
 
 
-        public Users GetUserByEmail(string email)
+        public Users? GetUserByEmail(string email)
         {
             var data=context.users.Where(x => x.Email == email).FirstOrDefault();
-            if (data == null)
-            {
-                throw new Exception("The requested data is not found");
-            }
             return data;
         }
 
@@ -41,32 +37,17 @@ namespace DAL
             return obj;
         }
 
-
+        
         public Users UpdateUser(Users obj)
         {
-            var data=this.context.users.Find(obj.Email);
-            if (data == null)
-            {
-                throw new Exception("The requested data is not found");
-            }
-            data.Firstname = obj.Firstname;
-            data.Lastname = obj.Lastname;
-            data.Email = obj.Email;
-            data.Password = obj.Password;
-            data.DOB = obj.DOB;
-            data.Gender = obj.Gender;
-            this.context.SaveChanges();
-            return obj;
+            var data = this.context.users.Find(obj.Email);
+            return data;
         }
 
 
         public Users RemoveUser(string email)
         {
             var data = this.context.users.Find(email);
-            if (data == null)
-            {
-                throw new Exception("The requested data is not found");
-            }
             this.context.users.Remove(data);
             this.context.SaveChanges();
             return data;

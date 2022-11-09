@@ -9,7 +9,7 @@ namespace DAL.Models
         public interface IUserRepository
         {
             public Users CreateUser(Users obj);
-            public Users GetUserByEmail(string email);
+            public Users? GetUserByEmail(string email);
             public List<Users> GetAllUser();
             public Users UpdateUser(Users obj);
             public Users RemoveUser(string email);
