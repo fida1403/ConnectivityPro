@@ -1,19 +1,12 @@
-﻿using DAL;
-using DAL.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DAL.Models;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BAL
 {
     public interface IUserService
     {
         Users GetUserByEmail(string email);
-        List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove);
+        List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove, int? ageBelow, int? ageExact);
         Users CreateUser(Users obj);
         Users UpdateUser(Users obj);
         Users RemoveUser(string email);
@@ -48,11 +41,13 @@ namespace BAL
         }
 
 
-        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
+        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove, int? ageBelow, int? ageExact)
         {
-            var result = repository.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove);
+            var result = repository.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove, ageBelow, ageExact);
             return result;
         }
+
+        
 
 
         public Users CreateUser(Users obj)
@@ -98,6 +93,7 @@ namespace BAL
             user.Password=obj.Password;
             user.DOB=obj.DOB;
             user.Gender=obj.Gender;
+            user.Age=obj.Age;
 
             var result = repository.UpdateUser(obj);
             this._context.SaveChanges();

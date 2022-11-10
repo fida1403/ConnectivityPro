@@ -1,8 +1,7 @@
 ﻿using BAL;
-using DAL;
 using DAL.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Repository_pattern.Controllers
 {
@@ -26,9 +25,9 @@ namespace Repository_pattern.Controllers
 
 
         [HttpGet]
-        public ActionResult <List<Users>> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
+        public ActionResult <List<Users>> GetAllUser([Required] int pageNo, [Required] int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove, int? ageBelow, int? ageExact)
         { 
-            var data=UserService.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove);
+            var data=UserService.GetAllUser(pageNo, itemsPerPage, nameStartWith, nameEndWith, nameContains, ageAbove, ageBelow, ageExact);
             return Ok(data);
         }
 

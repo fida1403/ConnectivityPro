@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Dynamic;
 
 namespace DAL.Models
 {
@@ -18,6 +12,7 @@ namespace DAL.Models
         public string Password { get; set; } = null!;
         public DateTime? DOB { get; set; }
         public gender? Gender { get; set; }
+        public int Age { get; set; }
         [NotMapped]
         public string GenderAsString
         {
@@ -40,9 +35,6 @@ namespace DAL.Models
         Others = 3
     }
 
-    public enum dob
-    {
-
-    }
 }
+
 

@@ -1,10 +1,4 @@
 ﻿using DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -24,7 +18,7 @@ namespace DAL
         }
 
 
-        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove)
+        public List<Users> GetAllUser(int pageNo, int itemsPerPage, string? nameStartWith, string? nameEndWith, string? nameContains, int? ageAbove, int? ageBelow, int? ageExact)
         {
             var query = context.users.AsQueryable();
             if (!string.IsNullOrEmpty(nameStartWith))
@@ -35,11 +29,23 @@ namespace DAL
             {
                 query = query.Where(c => c.Lastname.EndsWith(nameEndWith));
             }
-            if(!string.IsNullOrEmpty(nameContains))
+            if (!string.IsNullOrEmpty(nameContains))
             {
                 query = query.Where(c => c.Firstname.Contains(nameContains));
             }
-         
+
+            if(ageAbove!=null)
+            {
+                query=query.Where(c => c.Age > ageAbove);
+            }
+            else if(ageBelow!=null)
+            {
+                query=query.Where(c => c.Age < ageBelow);
+            }
+            else
+            {
+                query= query.Where(c => c.Age == ageExact);
+            }
             return query.Skip((pageNo-1)*itemsPerPage).Take(itemsPerPage).ToList();  
         }
 
@@ -66,6 +72,5 @@ namespace DAL
             this.context.SaveChanges();
             return data;
         }
-
     }
 }
